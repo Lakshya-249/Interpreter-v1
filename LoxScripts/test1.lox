@@ -29,3 +29,11 @@ for (var b = 1; a < 10000; b = temp + b) {
   temp = a;
   a = b;
 }
+
+if(2 > 3){
+    print "hello 2";
+}else if(2 < 3) {
+    print "hello 38";
+}else {
+    print "hello 4";
+}

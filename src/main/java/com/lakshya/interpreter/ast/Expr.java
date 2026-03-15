@@ -1,12 +1,14 @@
 package com.lakshya.interpreter.ast;
 
 import com.lakshya.interpreter.lexer.Token;
+import java.util.List;
 
 public abstract class Expr {
 
     public interface Visitor<R> {
         R visitAssignExpr(Assign expr);
         R visitBinaryExpr(Binary expr);
+        R visitCallExpr(Call expr);
         R visitGroupingExpr(Grouping expr);
         R visitLiteralExpr(Literal expr);
         R visitLogicalExpr(Logical expr);
@@ -45,6 +47,24 @@ public abstract class Expr {
         @Override
         public <R> R accept(Visitor<R> visitor) {
             return visitor.visitBinaryExpr(this);
+        }
+    }
+
+    public static class Call extends Expr {
+
+        public Call(Expr callee, List<Expr> arguments, Token paren) {
+            this.callee = callee;
+            this.arguments = arguments;
+            this.paren = paren;
+        }
+
+        public final Expr callee;
+        public final List<Expr> arguments;
+        public final Token paren;
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitCallExpr(this);
         }
     }
 

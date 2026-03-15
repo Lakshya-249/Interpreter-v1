@@ -5,6 +5,7 @@ import com.lakshya.interpreter.ast.Expr;
 import com.lakshya.interpreter.ast.Stmt;
 import com.lakshya.interpreter.lexer.Token;
 import com.lakshya.interpreter.lexer.TokenType;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
@@ -204,6 +205,25 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             execute(stmt.body);
         }
         return null;
+    }
+
+    @Override
+    public Object visitCallExpr(Expr.Call expr) {
+        Object callee = evaluate(expr.callee);
+        List<Object> arguments = new ArrayList<>();
+        for (Expr argument : expr.arguments) {
+            arguments.add(evaluate(argument));
+        }
+
+        if (!(callee instanceof Callable)) {
+            throw new RuntimeError(
+                expr.paren,
+                "Can only call functions and classes."
+            );
+        }
+
+        Callable function = (Callable) callee;
+        return function.call(this, arguments);
     }
 
     public void interpret(List<Stmt> statements) {
