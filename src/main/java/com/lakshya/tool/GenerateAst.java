@@ -34,7 +34,7 @@ public class GenerateAst {
 
         writer.println();
         for (String field : fields) {
-            writer.println("    final " + field + ";");
+            writer.println("    public final " + field + ";");
         }
 
         writer.println("        @Override");
@@ -75,7 +75,7 @@ public class GenerateAst {
             defineType(writer, baseName, className, fields);
         }
 
-        writer.println("  abstract <R> R accept(Visitor<R> visitor);");
+        writer.println("  public abstract <R> R accept(Visitor<R> visitor);");
         writer.println("}");
         writer.close();
     }
@@ -85,7 +85,7 @@ public class GenerateAst {
         String baseName,
         List<String> types
     ) {
-        writer.println("interface Visitor<R> {");
+        writer.println("public interface Visitor<R> {");
         for (String type : types) {
             String typeName = type.split(":")[0].trim();
             writer.println(
@@ -119,6 +119,15 @@ public class GenerateAst {
                 "Grouping : Expr expression",
                 "Literal  : Object value",
                 "Unary    : Token operator, Expr right"
+            )
+        );
+
+        defineAst(
+            outputDir,
+            "Stmt",
+            Arrays.asList(
+                "Expression : Expr expression",
+                "Print      : Expr expression"
             )
         );
     }

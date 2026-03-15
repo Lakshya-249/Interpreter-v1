@@ -4,7 +4,7 @@ import com.lakshya.interpreter.lexer.Token;
 
 public abstract class Expr {
 
-    interface Visitor<R> {
+    public interface Visitor<R> {
         R visitBinaryExpr(Binary expr);
         R visitGroupingExpr(Grouping expr);
         R visitLiteralExpr(Literal expr);
@@ -19,9 +19,9 @@ public abstract class Expr {
             this.right = right;
         }
 
-        final Expr left;
-        final Token operator;
-        final Expr right;
+        public final Expr left;
+        public final Token operator;
+        public final Expr right;
 
         @Override
         public <R> R accept(Visitor<R> visitor) {
@@ -35,7 +35,7 @@ public abstract class Expr {
             this.expression = expression;
         }
 
-        final Expr expression;
+        public final Expr expression;
 
         @Override
         public <R> R accept(Visitor<R> visitor) {
@@ -49,7 +49,7 @@ public abstract class Expr {
             this.value = value;
         }
 
-        final Object value;
+        public final Object value;
 
         @Override
         public <R> R accept(Visitor<R> visitor) {
@@ -64,8 +64,8 @@ public abstract class Expr {
             this.right = right;
         }
 
-        final Token operator;
-        final Expr right;
+        public final Token operator;
+        public final Expr right;
 
         @Override
         public <R> R accept(Visitor<R> visitor) {
@@ -73,5 +73,5 @@ public abstract class Expr {
         }
     }
 
-    abstract <R> R accept(Visitor<R> visitor);
+    public abstract <R> R accept(Visitor<R> visitor);
 }

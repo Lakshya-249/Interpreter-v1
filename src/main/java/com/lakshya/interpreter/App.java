@@ -1,9 +1,10 @@
 package com.lakshya.interpreter;
 
-import com.lakshya.interpreter.ast.AstPrinter;
-import com.lakshya.interpreter.ast.Expr;
+import com.lakshya.interpreter.ast.Stmt;
 import com.lakshya.interpreter.lexer.*;
 import com.lakshya.interpreter.parser.Parser;
+import com.lakshya.interpreter.runtime.Interpreter;
+import com.lakshya.interpreter.runtime.RuntimeError;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,7 +15,10 @@ import java.util.List;
 
 public class App {
 
+    private static final Interpreter interpreter = new Interpreter();
+
     static boolean hadError = false;
+    static boolean hadRuntimeError = false;
 
     public static void error(int line, String message) {
         report(line, "", message);
@@ -26,6 +30,13 @@ public class App {
         } else {
             report(token.line, " at '" + token.lexeme + "'", message);
         }
+    }
+
+    public static void runtimeError(RuntimeError error) {
+        System.err.println(
+            error.getMessage() + "\n[line " + error.token.line + "]"
+        );
+        hadRuntimeError = true;
     }
 
     private static void report(int line, String where, String message) {
@@ -40,11 +51,11 @@ public class App {
         List<Token> tokens = scanner.scanTokens();
 
         Parser parser = new Parser(tokens);
-        Expr expr = parser.parse();
+        List<Stmt> statements = parser.parse();
 
         if (hadError) return;
 
-        System.out.println(new AstPrinter().print(expr));
+        interpreter.interpret(statements);
     }
 
     private static void runPrompt() throws IOException {
@@ -67,6 +78,7 @@ public class App {
         run(source);
 
         if (hadError) System.exit(65);
+        if (hadRuntimeError) System.exit(70);
     }
 
     public static void main(String[] args) throws IOException {

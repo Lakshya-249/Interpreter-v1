@@ -4,8 +4,10 @@ import static com.lakshya.interpreter.lexer.TokenType.*;
 
 import com.lakshya.interpreter.App;
 import com.lakshya.interpreter.ast.Expr;
+import com.lakshya.interpreter.ast.Stmt;
 import com.lakshya.interpreter.lexer.Token;
 import com.lakshya.interpreter.lexer.TokenType;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
@@ -172,12 +174,29 @@ public class Parser {
         throw error(peek(), "Expect expression.");
     }
 
-    public Expr parse() {
-        try {
-            return expression();
-        } catch (ParseError e) {
-            synchronize();
-            return null;
+    private Stmt printStatement() {
+        Expr value = expression();
+        consume(SEMICOLON, "Expect ';' after value.");
+        return new Stmt.Print(value);
+    }
+
+    private Stmt expressionStatement() {
+        Expr expr = expression();
+        consume(SEMICOLON, "Expect ';' after expression.");
+        return new Stmt.Expression(expr);
+    }
+
+    private Stmt statement() {
+        if (match(PRINT)) return printStatement();
+
+        return expressionStatement();
+    }
+
+    public List<Stmt> parse() {
+        List<Stmt> statements = new ArrayList<>();
+        while (!isAtEnd()) {
+            statements.add(statement());
         }
+        return statements;
     }
 }
