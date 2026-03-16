@@ -37,3 +37,21 @@ if(2 > 3){
 }else {
     print "hello 4";
 }
+
+fun fib(n) {
+  return (n - 1) + (n - 2);
+}
+
+var v = fib(10);
+print v + 3;
+
+print "fibo series: ";
+
+fun fib(n) {
+  if (n <= 1) return n;
+  return fib(n - 2) + fib(n - 1);
+}
+
+for (var i = 0; i < 20; i = i + 1) {
+  print fib(i);
+}
