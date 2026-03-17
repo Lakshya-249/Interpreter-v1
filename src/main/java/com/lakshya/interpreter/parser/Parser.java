@@ -228,6 +228,26 @@ public class Parser {
         return new Expr.Call(callee, args, paren);
     }
 
+    private Expr functionExpression() {
+        consume(LEFT_PAREN, "Expect '(' after 'fun' keyword.");
+
+        List<Token> params = new ArrayList<>();
+        if (!check(RIGHT_PAREN)) {
+            do {
+                if (params.size() >= 255) {
+                    error(peek(), "Can't have more than 255 parameters.");
+                }
+                params.add(consume(IDENTIFIER, "Expect parameter name."));
+            } while (match(COMMA));
+        }
+
+        consume(RIGHT_PAREN, "Expect ')' after parameters.");
+
+        consume(LEFT_BRACE, "Expect '{' before function body.");
+        List<Stmt> body = block();
+        return new Expr.Function(params, body);
+    }
+
     private Expr primary() {
         if (match(FALSE)) return new Expr.Literal(false);
         if (match(TRUE)) return new Expr.Literal(true);
@@ -239,6 +259,10 @@ public class Parser {
 
         if (match(IDENTIFIER)) {
             return new Expr.Variable(previous());
+        }
+
+        if (match(FUN)) {
+            return functionExpression();
         }
 
         if (match(LEFT_PAREN)) {
@@ -365,7 +389,7 @@ public class Parser {
         consume(LEFT_PAREN, "Expect '(' after " + kind + " name.");
 
         List<Token> params = new ArrayList<>();
-        if (!match(RIGHT_PAREN)) {
+        if (!check(RIGHT_PAREN)) {
             do {
                 if (params.size() >= 255) {
                     error(peek(), "Can't have more than 255 parameters.");
