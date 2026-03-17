@@ -7,3 +7,20 @@ fun thrice(fn) {
 thrice(fun (a) {
   print a;
 });
+
+var f = fun (a) {
+  return a;
+};
+print f(42);
+
+fun multiplier(x) {
+  return fun (y) {
+    return x * y;
+  };
+}
+
+var double = multiplier(2);
+var triple = multiplier(3);
+
+print double(5);
+print triple(5);
