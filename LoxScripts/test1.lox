@@ -33,3 +33,19 @@ print triple(5);
 for (var i = 1; i <= 5; i = i + 1) {
   print i;
 }
+
+var a = "yolo";
+{
+   fun cale(){
+    print a;
+
+   }
+   cale();
+
+    var a = "ehllo:";
+
+    cale();
+    cale();
+
+    print a;
+}
