@@ -8,6 +8,11 @@ thrice(fun (a) {
   print a;
 });
 
+var daimond = fun (a){
+    print a * 2;
+};
+thrice(daimond);
+
 var f = fun (a) {
   return a;
 };
@@ -24,3 +29,7 @@ var triple = multiplier(3);
 
 print double(5);
 print triple(5);
+
+for (var i = 1; i <= 5; i = i + 1) {
+  print i;
+}

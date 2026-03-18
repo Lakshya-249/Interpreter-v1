@@ -16,6 +16,15 @@ public class Environment {
         this.enclosing = enclosing;
     }
 
+    Environment ancestor(int distance) {
+        Environment environment = this;
+        for (int i = 0; i < distance; i++) {
+            environment = environment.enclosing;
+        }
+
+        return environment;
+    }
+
     private final Map<String, Object> values = new HashMap<>();
 
     public void define(String name, Object value) {
@@ -46,5 +55,13 @@ public class Environment {
         }
 
         throw new RuntimeException("Undefined variable '" + name.lexeme + "'.");
+    }
+
+    public Object getAt(int distance, String name) {
+        return ancestor(distance).values.get(name);
+    }
+
+    public void assignAt(int distance, Token name, Object value) {
+        ancestor(distance).values.put(name.lexeme, value);
     }
 }

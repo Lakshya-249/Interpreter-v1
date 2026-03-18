@@ -3,6 +3,7 @@ package com.lakshya.interpreter;
 import com.lakshya.interpreter.ast.Stmt;
 import com.lakshya.interpreter.lexer.*;
 import com.lakshya.interpreter.parser.Parser;
+import com.lakshya.interpreter.parser.Resolver;
 import com.lakshya.interpreter.runtime.Interpreter;
 import com.lakshya.interpreter.runtime.RuntimeError;
 import java.io.BufferedReader;
@@ -52,6 +53,11 @@ public class App {
 
         Parser parser = new Parser(tokens);
         List<Stmt> statements = parser.parse();
+
+        if (hadError) return;
+
+        Resolver resolver = new Resolver(interpreter);
+        resolver.resolve(statements);
 
         if (hadError) return;
 
