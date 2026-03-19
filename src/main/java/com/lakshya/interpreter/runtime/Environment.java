@@ -40,7 +40,10 @@ public class Environment {
             return enclosing.get(name);
         }
 
-        throw new RuntimeException("Undefined variable '" + name.lexeme + "'.");
+        throw new RuntimeError(
+            name,
+            "Undefined variable '" + name.lexeme + "'."
+        );
     }
 
     public void assign(Token name, Object value) {
@@ -54,7 +57,10 @@ public class Environment {
             return;
         }
 
-        throw new RuntimeException("Undefined variable '" + name.lexeme + "'.");
+        throw new RuntimeError(
+            name,
+            "Undefined variable '" + name.lexeme + "'."
+        );
     }
 
     public Object getAt(int distance, String name) {
