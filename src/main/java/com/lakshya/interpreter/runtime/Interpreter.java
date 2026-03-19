@@ -300,6 +300,14 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         throw new Return(value);
     }
 
+    @Override
+    public Void visitClassStmt(Stmt.Class stmt) {
+        environment.define(stmt.name.lexeme, null);
+        Class klass = new Class(stmt.name.lexeme);
+        environment.assign(stmt.name, klass);
+        return null;
+    }
+
     public void interpret(List<Stmt> statements) {
         try {
             for (Stmt statement : statements) {
