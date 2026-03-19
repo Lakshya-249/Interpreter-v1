@@ -34,11 +34,23 @@ for (var i = 1; i <= 5; i = i + 1) {
   print i;
 }
 
-var takinput = input();
-print "hello" + takinput;
+// var takinput = input();
+//    print "hello" + takinput;
 
-var userAge = numberInput();
-var finalNAS = 20 * userAge;
+// var userAge = numberInput();
+// var finalNAS = 20 * userAge;
 
-print finalNAS;
-print len();
+// print finalNAS;
+// print len()
+
+
+class Day{
+    monday(){
+        print "monday";
+    }
+}
+
+var Monday = Day();
+
+print Day;
+print Monday;
