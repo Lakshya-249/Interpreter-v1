@@ -5,6 +5,9 @@ import com.lakshya.interpreter.ast.Expr;
 import com.lakshya.interpreter.ast.Stmt;
 import com.lakshya.interpreter.lexer.Token;
 import com.lakshya.interpreter.lexer.TokenType;
+import com.lakshya.interpreter.lib.ClockNativeFunction;
+import com.lakshya.interpreter.lib.InputNativeFunction;
+import com.lakshya.interpreter.lib.NumberInputNativeFunction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +21,8 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     public Interpreter() {
         globals.define("clock", new ClockNativeFunction());
+        globals.define("input", new InputNativeFunction());
+        globals.define("numberInput", new NumberInputNativeFunction());
     }
 
     public void resolve(Expr expr, int depth) {

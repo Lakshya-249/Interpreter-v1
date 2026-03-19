@@ -33,3 +33,6 @@ print triple(5);
 for (var i = 1; i <= 5; i = i + 1) {
   print i;
 }
+
+var takinput = input();
+print "hello" + takinput;

@@ -1,5 +1,7 @@
-package com.lakshya.interpreter.runtime;
+package com.lakshya.interpreter.lib;
 
+import com.lakshya.interpreter.runtime.Callable;
+import com.lakshya.interpreter.runtime.Interpreter;
 import java.util.List;
 
 public class ClockNativeFunction implements Callable {
