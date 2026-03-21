@@ -106,3 +106,11 @@ print lst;
 
 nlist.pop_back();
 print nlist;
+
+print(len(lst));
+
+lst.push_back(7);
+print lst;
+
+print len(lst);
+print len("lakshya");
