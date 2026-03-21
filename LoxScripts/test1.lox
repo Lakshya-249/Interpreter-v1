@@ -46,11 +46,25 @@ for (var i = 1; i <= 5; i = i + 1) {
 
 class Day{
     monday(){
-        print "monday";
+        return "monday";
+    }
+
+    printThis(){
+        print this;
     }
 }
 
+print this;
+
 var Monday = Day();
 
+Monday.name = "Monday4567";
+
+var d =  Monday.monday;
+print d();
+
+Monday.printThis();
+
 print Day;
-print Monday;
+Monday.wrok = "ehllo";
+print Monday.wrok;

@@ -13,6 +13,12 @@ public class Function implements Callable {
         this.closure = closure;
     }
 
+    public Function bind(Instance instance) {
+        Environment environment = new Environment(closure);
+        environment.define("this", instance);
+        return new Function(declaration, environment);
+    }
+
     @Override
     public Object call(Interpreter interpreter, List<Object> arguments) {
         Environment environment = new Environment(closure);

@@ -1,13 +1,24 @@
 package com.lakshya.interpreter.runtime;
 
 import java.util.List;
+import java.util.Map;
 
 public class Class implements Callable {
 
     public final String name;
+    private final Map<String, Function> methods;
 
-    public Class(String name) {
+    public Class(String name, Map<String, Function> methods) {
         this.name = name;
+        this.methods = methods;
+    }
+
+    public Function findMethod(String name) {
+        if (methods.containsKey(name)) {
+            return methods.get(name);
+        }
+
+        return null;
     }
 
     @Override
