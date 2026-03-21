@@ -240,6 +240,10 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             return ((Instance) object).get(expr.name);
         }
 
+        if (object instanceof Class) {
+            return ((Class) object).get(expr.name);
+        }
+
         throw new RuntimeError(
             expr.name,
             "Undefined property '" + expr.name.lexeme + "'."
@@ -331,6 +335,13 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         environment.define(stmt.name.lexeme, null);
 
         Map<String, Function> methods = new HashMap<>();
+        Map<String, Function> staticMethods = new HashMap<>();
+
+        for (Stmt.Function method : stmt.staticMethods) {
+            Function function = new Function(method, environment, false);
+            staticMethods.put(method.name.lexeme, function);
+        }
+
         for (Stmt.Function method : stmt.methods) {
             Function function = new Function(
                 method,
@@ -340,7 +351,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             methods.put(method.name.lexeme, function);
         }
 
-        Class klass = new Class(stmt.name.lexeme, methods);
+        Class klass = new Class(stmt.name.lexeme, methods, staticMethods);
         environment.assign(stmt.name, klass);
         return null;
     }

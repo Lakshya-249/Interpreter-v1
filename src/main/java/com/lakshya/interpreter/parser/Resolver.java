@@ -17,6 +17,7 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         FUNCTION,
         INITIALIZER,
         METHOD,
+        STATIC_METHOD,
     }
 
     private enum ClassType {
@@ -278,7 +279,15 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         define(stmt.name);
 
         beginScope();
+
         scopes.peek().put("this", true);
+
+        for (Stmt.Function method : stmt.staticMethods) {
+            if (method.name.lexeme.equals("init")) {
+                App.error(method.name, "Cannot have a static initializer.");
+            }
+            resolveFunction(method, FunctionType.STATIC_METHOD);
+        }
 
         for (Stmt.Function method : stmt.methods) {
             FunctionType declaration = FunctionType.METHOD;
@@ -298,6 +307,10 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitThisExpr(Expr.This expr) {
         if (currentClass == ClassType.NONE) {
             App.error(expr.keyword, "Cannot use 'this' outside of a class.");
+        }
+
+        if (currentFunction == FunctionType.STATIC_METHOD) {
+            App.error(expr.keyword, "Cannot use 'this' in a static method.");
         }
 
         resolveLocal(expr, expr.keyword);

@@ -74,10 +74,16 @@ class Person {
         this.name = name;
     }
 
+    static add(a, b) {
+        return a + b;
+    }
+
     printName(){
         print this.name;
     }
 }
+
+print Person.add(1, 2);
 
 var person = Person("John");
 person.printName();

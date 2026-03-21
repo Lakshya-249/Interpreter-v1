@@ -1,5 +1,6 @@
 package com.lakshya.interpreter.runtime;
 
+import com.lakshya.interpreter.lexer.Token;
 import java.util.List;
 import java.util.Map;
 
@@ -7,10 +8,27 @@ public class Class implements Callable {
 
     public final String name;
     private final Map<String, Function> methods;
+    private final Map<String, Function> staticMethods;
 
-    public Class(String name, Map<String, Function> methods) {
+    public Class(
+        String name,
+        Map<String, Function> methods,
+        Map<String, Function> staticMethods
+    ) {
         this.name = name;
         this.methods = methods;
+        this.staticMethods = staticMethods;
+    }
+
+    public Object get(Token name) {
+        if (staticMethods.containsKey(name.lexeme)) {
+            return staticMethods.get(name.lexeme);
+        }
+
+        throw new RuntimeError(
+            name,
+            "Undefined static method '" + name.lexeme + "'."
+        );
     }
 
     public Function findMethod(String name) {
