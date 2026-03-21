@@ -98,4 +98,4 @@ print elem;
 print lst;
 
 var nlist = [ [1, 2], [3, 4] ];
-print nlist[1][0];
+print nlist[1][2];

@@ -289,7 +289,14 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         List<Object> values = ((ArrayClass) array).elements;
         if (idx < 0 || idx >= values.size()) {
-            throw new RuntimeError(expr.paren, "Array index out of bounds.");
+            throw new RuntimeError(
+                expr.paren,
+                "Array index out of bounds: " +
+                    idx +
+                    " (size: " +
+                    values.size() +
+                    ")"
+            );
         }
 
         return values.get(idx);
@@ -313,7 +320,14 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         List<Object> elements = ((ArrayClass) array).elements;
         if (idx < 0 || idx >= elements.size()) {
-            throw new RuntimeError(expr.paren, "Array index out of bounds.");
+            throw new RuntimeError(
+                expr.paren,
+                "Array index out of bounds: " +
+                    idx +
+                    " (size: " +
+                    elements.size() +
+                    ")"
+            );
         }
 
         elements.set(idx, value);
