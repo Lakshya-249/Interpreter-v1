@@ -105,6 +105,14 @@ public class Parser {
             } else if (expr instanceof Expr.Get) {
                 Expr.Get get = (Expr.Get) expr;
                 return new Expr.Set(get.object, get.name, value);
+            } else if (expr instanceof Expr.Index) {
+                Expr.Index index = (Expr.Index) expr;
+                return new Expr.SetIndex(
+                    index.array,
+                    index.index,
+                    value,
+                    index.paren
+                );
             }
 
             error(equals, "Invalid assignment target.");
@@ -207,6 +215,10 @@ public class Parser {
         while (true) {
             if (match(LEFT_PAREN)) {
                 expr = finishCall(expr);
+            } else if (match(LEFT_BRACKET)) {
+                Expr index = expression();
+                Token paren = consume(RIGHT_BRACKET, "Expect ']' after index.");
+                expr = new Expr.Index(expr, index, paren);
             } else if (match(DOT)) {
                 Token name = consume(
                     IDENTIFIER,
@@ -282,6 +294,15 @@ public class Parser {
             Expr expr = expression();
             consume(RIGHT_PAREN, "Expect ')' after expression.");
             return new Expr.Grouping(expr);
+        }
+
+        if (match(LEFT_BRACKET)) {
+            List<Expr> elements = new ArrayList<>();
+            do {
+                elements.add(expression());
+            } while (match(COMMA));
+            consume(RIGHT_BRACKET, "Expect ']' after array.");
+            return new Expr.Array(elements);
         }
 
         throw error(peek(), "Expect expression.");

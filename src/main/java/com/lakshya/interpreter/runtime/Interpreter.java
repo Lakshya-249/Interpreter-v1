@@ -264,6 +264,64 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Object visitArrayExpr(Expr.Array expr) {
+        List<Object> values = new ArrayList<>();
+        for (Expr element : expr.elements) {
+            values.add(evaluate(element));
+        }
+        return new ArrayClass(values);
+    }
+
+    @Override
+    public Object visitIndexExpr(Expr.Index expr) {
+        Object array = evaluate(expr.array);
+        Object index = evaluate(expr.index);
+
+        if (!(array instanceof ArrayClass)) {
+            throw new RuntimeError(expr.paren, "Only arrays have indices.");
+        }
+
+        if (!(index instanceof Double)) {
+            throw new RuntimeError(expr.paren, "Array indices must be number.");
+        }
+
+        int idx = (int) ((double) index);
+
+        List<Object> values = ((ArrayClass) array).elements;
+        if (idx < 0 || idx >= values.size()) {
+            throw new RuntimeError(expr.paren, "Array index out of bounds.");
+        }
+
+        return values.get(idx);
+    }
+
+    @Override
+    public Object visitSetIndexExpr(Expr.SetIndex expr) {
+        Object array = evaluate(expr.array);
+        Object index = evaluate(expr.index);
+        Object value = evaluate(expr.value);
+
+        if (!(array instanceof ArrayClass)) {
+            throw new RuntimeError(expr.paren, "Only arrays have indices.");
+        }
+
+        if (!(index instanceof Double)) {
+            throw new RuntimeError(expr.paren, "Array indices must be number.");
+        }
+
+        int idx = (int) ((double) index);
+
+        List<Object> elements = ((ArrayClass) array).elements;
+        if (idx < 0 || idx >= elements.size()) {
+            throw new RuntimeError(expr.paren, "Array index out of bounds.");
+        }
+
+        elements.set(idx, value);
+
+        return value;
+    }
+
+    @Override
     public Void visitIfStmt(Stmt.If stmt) {
         if (isTruthy(evaluate(stmt.condition))) {
             execute(stmt.thenBranch);

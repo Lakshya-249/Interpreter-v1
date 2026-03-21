@@ -126,7 +126,10 @@ public class GenerateAst {
                 "Set      : Expr object, Token name, Expr value",
                 "This     : Token keyword",
                 "Unary    : Token operator, Expr right",
-                "Variable : Token name"
+                "Variable : Token name",
+                "Array    : List<Expr> elements",
+                "Index    : Expr array, Expr index, Token paren",
+                "SetIndex : Expr array, Expr index, Expr value, Token paren"
             )
         );
 

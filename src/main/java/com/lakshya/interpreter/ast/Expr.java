@@ -18,6 +18,9 @@ public abstract class Expr {
         R visitThisExpr(This expr);
         R visitUnaryExpr(Unary expr);
         R visitVariableExpr(Variable expr);
+        R visitArrayExpr(Array expr);
+        R visitIndexExpr(Index expr);
+        R visitSetIndexExpr(SetIndex expr);
     }
 
     public static class Assign extends Expr {
@@ -209,6 +212,58 @@ public abstract class Expr {
         @Override
         public <R> R accept(Visitor<R> visitor) {
             return visitor.visitVariableExpr(this);
+        }
+    }
+
+    public static class Array extends Expr {
+
+        public Array(List<Expr> elements) {
+            this.elements = elements;
+        }
+
+        public final List<Expr> elements;
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitArrayExpr(this);
+        }
+    }
+
+    public static class Index extends Expr {
+
+        public Index(Expr array, Expr index, Token paren) {
+            this.array = array;
+            this.index = index;
+            this.paren = paren;
+        }
+
+        public final Expr array;
+        public final Expr index;
+        public final Token paren;
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitIndexExpr(this);
+        }
+    }
+
+    public static class SetIndex extends Expr {
+
+        public SetIndex(Expr array, Expr index, Expr value, Token paren) {
+            this.array = array;
+            this.index = index;
+            this.value = value;
+            this.paren = paren;
+        }
+
+        public final Expr array;
+        public final Expr index;
+        public final Expr value;
+        public final Token paren;
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitSetIndexExpr(this);
         }
     }
 
