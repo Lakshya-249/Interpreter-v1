@@ -1,6 +1,6 @@
 package com.lakshya.interpreter.lib;
 
-import com.lakshya.interpreter.runtime.Callable;
+import com.lakshya.interpreter.callable.Callable;
 import com.lakshya.interpreter.runtime.Interpreter;
 import java.util.List;
 import java.util.Scanner;

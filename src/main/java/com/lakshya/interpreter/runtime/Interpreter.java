@@ -3,6 +3,11 @@ package com.lakshya.interpreter.runtime;
 import com.lakshya.interpreter.App;
 import com.lakshya.interpreter.ast.Expr;
 import com.lakshya.interpreter.ast.Stmt;
+import com.lakshya.interpreter.callable.ArrayClass;
+import com.lakshya.interpreter.callable.Callable;
+import com.lakshya.interpreter.callable.Class;
+import com.lakshya.interpreter.callable.Function;
+import com.lakshya.interpreter.callable.Instance;
 import com.lakshya.interpreter.lexer.Token;
 import com.lakshya.interpreter.lexer.TokenType;
 import com.lakshya.interpreter.lib.ClockNativeFunction;
@@ -76,7 +81,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         );
     }
 
-    void executeBlock(List<Stmt> statements, Environment environment) {
+    public void executeBlock(List<Stmt> statements, Environment environment) {
         Environment previous = this.environment;
 
         try {
@@ -238,6 +243,10 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         Object object = evaluate(expr.object);
         if (object instanceof Instance) {
             return ((Instance) object).get(expr.name);
+        }
+
+        if (object instanceof ArrayClass) {
+            return ((ArrayClass) object).get(expr.name);
         }
 
         if (object instanceof Class) {

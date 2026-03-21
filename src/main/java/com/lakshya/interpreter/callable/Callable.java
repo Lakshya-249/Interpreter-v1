@@ -1,5 +1,6 @@
-package com.lakshya.interpreter.runtime;
+package com.lakshya.interpreter.callable;
 
+import com.lakshya.interpreter.runtime.Interpreter;
 import java.util.List;
 
 public interface Callable {

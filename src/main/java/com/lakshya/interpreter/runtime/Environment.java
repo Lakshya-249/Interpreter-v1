@@ -10,11 +10,11 @@ public class Environment {
 
     private final Map<String, Object> values = new HashMap<>();
 
-    Environment() {
+    public Environment() {
         this.enclosing = null;
     }
 
-    Environment(Environment enclosing) {
+    public Environment(Environment enclosing) {
         this.enclosing = enclosing;
     }
 

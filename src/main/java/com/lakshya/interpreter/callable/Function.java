@@ -1,6 +1,9 @@
-package com.lakshya.interpreter.runtime;
+package com.lakshya.interpreter.callable;
 
 import com.lakshya.interpreter.ast.Stmt;
+import com.lakshya.interpreter.runtime.Environment;
+import com.lakshya.interpreter.runtime.Interpreter;
+import com.lakshya.interpreter.runtime.Return;
 import java.util.List;
 
 public class Function implements Callable {

@@ -1,6 +1,8 @@
-package com.lakshya.interpreter.runtime;
+package com.lakshya.interpreter.callable;
 
 import com.lakshya.interpreter.lexer.Token;
+import com.lakshya.interpreter.runtime.RuntimeError;
+
 import java.util.HashMap;
 import java.util.Map;
 
