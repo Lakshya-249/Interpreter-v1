@@ -8,6 +8,8 @@ public class Environment {
 
     final Environment enclosing;
 
+    private final Map<String, Object> values = new HashMap<>();
+
     Environment() {
         this.enclosing = null;
     }
@@ -24,8 +26,6 @@ public class Environment {
 
         return environment;
     }
-
-    private final Map<String, Object> values = new HashMap<>();
 
     public void define(String name, Object value) {
         values.put(name, value);
