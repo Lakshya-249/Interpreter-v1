@@ -23,12 +23,21 @@ public class Class implements Callable {
 
     @Override
     public int arity() {
+        Function initializer = findMethod("init");
+        if (initializer != null) {
+            return initializer.arity();
+        }
         return 0;
     }
 
     @Override
     public Object call(Interpreter interpreter, List<Object> arguments) {
         Instance instance = new Instance(this);
+        Function initializer = findMethod("init");
+        if (initializer != null) {
+            initializer.bind(instance).call(interpreter, arguments);
+        }
+
         return instance;
     }
 

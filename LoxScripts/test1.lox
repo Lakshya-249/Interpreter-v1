@@ -54,7 +54,6 @@ class Day{
     }
 }
 
-print this;
 
 var Monday = Day();
 
@@ -68,3 +67,17 @@ Monday.printThis();
 print Day;
 Monday.wrok = "ehllo";
 print Monday.wrok;
+
+
+class Person {
+    init(name){
+        this.name = name;
+    }
+
+    printName(){
+        print this.name;
+    }
+}
+
+var person = Person("John");
+person.printName();

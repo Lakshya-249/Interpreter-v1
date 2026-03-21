@@ -199,7 +199,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             expr.params,
             expr.body
         );
-        return new Function(function, environment);
+        return new Function(function, environment, false);
     }
 
     @Override
@@ -310,7 +310,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitFunctionStmt(Stmt.Function stmt) {
-        Function function = new Function(stmt, environment);
+        Function function = new Function(stmt, environment, false);
         environment.define(stmt.name.lexeme, function);
         return null;
     }
@@ -332,7 +332,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         Map<String, Function> methods = new HashMap<>();
         for (Stmt.Function method : stmt.methods) {
-            Function function = new Function(method, environment);
+            Function function = new Function(
+                method,
+                environment,
+                method.name.lexeme.equals("init")
+            );
             methods.put(method.name.lexeme, function);
         }
 
