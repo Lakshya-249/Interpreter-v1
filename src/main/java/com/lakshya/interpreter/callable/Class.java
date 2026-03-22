@@ -9,15 +9,18 @@ import java.util.Map;
 public class Class implements Callable {
 
     public final String name;
+    public final Class superclass;
     private final Map<String, Function> methods;
     private final Map<String, Function> staticMethods;
 
     public Class(
         String name,
+        Class superclass,
         Map<String, Function> methods,
         Map<String, Function> staticMethods
     ) {
         this.name = name;
+        this.superclass = superclass;
         this.methods = methods;
         this.staticMethods = staticMethods;
     }
@@ -36,6 +39,10 @@ public class Class implements Callable {
     public Function findMethod(String name) {
         if (methods.containsKey(name)) {
             return methods.get(name);
+        }
+
+        if (superclass != null) {
+            return superclass.findMethod(name);
         }
 
         return null;

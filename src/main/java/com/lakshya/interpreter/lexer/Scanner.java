@@ -37,6 +37,7 @@ public class Scanner {
         keywords.put("var", VAR);
         keywords.put("while", WHILE);
         keywords.put("static", STATIC);
+        keywords.put("extends", EXTENDS);
     }
 
     public Scanner(String source) {

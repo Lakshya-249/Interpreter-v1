@@ -15,6 +15,7 @@ public enum TokenType {
     SEMICOLON,
     SLASH,
     STAR,
+    EXTENDS,
 
     // One or two character tokens.
     EQUAL,
