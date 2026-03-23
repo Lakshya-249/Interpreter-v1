@@ -114,3 +114,25 @@ print lst;
 
 print len(lst);
 print len("lakshya");
+
+
+class A{
+    test(){
+        super.test();
+        print "test A";
+    }
+}
+
+class B extends A {
+    test(){
+        print "test B";
+    }
+    testB(){
+        super.test();
+    }
+}
+
+class C extends B {}
+
+var c = C();
+c.testB();

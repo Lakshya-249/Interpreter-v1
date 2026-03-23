@@ -426,7 +426,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         environment.define(stmt.name.lexeme, null);
 
-        if (superclass != null) {
+        if (stmt.superclass != null) {
             environment = new Environment(environment);
             environment.define("super", superclass);
         }
